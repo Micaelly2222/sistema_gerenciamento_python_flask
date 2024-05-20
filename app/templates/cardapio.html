@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Cardápio</h1>
+<ul>
+    {% for item in itens %}
+    <li>{{ item.nome }} - {{ item.descricao }} - R$ {{ item.preco }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

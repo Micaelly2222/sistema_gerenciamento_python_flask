@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Fazer Pedido</h2>
+<form method="POST">
+    Cliente:
+    <select name="cliente_id">
+        {% for cliente in clientes %}
+        <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+        {% endfor %}
+    </select><br>
+    Itens:
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Quantidade</th>
+        </tr>
+        {% for item in itens %}
+        <tr>
+            <td>{{ item.nome }}</td>
+            <td><input type="number" name="quantidades" value="1" min="1"></td>
+            <input type="hidden" name="itens" value="{{ item.id }}">
+        </tr>
+        {% endfor %}
+    </table>
+    Método de Pagamento:
+    <select name="metodo_pagamento">
+        <option value="Dinheiro">Dinheiro</option>
+        <option value="Cartão de Crédito">Cartão de Crédito</option>
+        <option value="Cartão de Débito">Cartão de Débito</option>
+    </select><br>
+    <button type="submit">Fazer Pedido</button>
+</form>
+{% endblock %}

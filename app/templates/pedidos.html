@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Pedidos</h1>
+<ul>
+    {% for pedido in pedidos %}
+    <li>Pedido #{{ pedido.id }} - Cliente: {{ pedido.cliente.nome }} - Método de Pagamento: {{ pedido.metodo_pagamento }}</li>
+    <ul>
+        {% for item in pedido.itens %}
+        <li>{{ item.item.nome }} - Quantidade: {{ item.quantidade }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</ul>
+{% endblock %}
