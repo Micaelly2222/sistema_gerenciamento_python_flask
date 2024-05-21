@@ -88,15 +88,30 @@ def estoque():
     estoque = Estoque.query.all()
     return render_template('estoque.html', estoque=estoque)
 
+# Rota para simular pagamento
+@app.route('/simular_pagamento/<int:pedido_id>', methods=['GET', 'POST'])
+def simular_pagamento(pedido_id):
+    pedido = Pedido.query.get_or_404(pedido_id)
+    
+    if request.method == 'POST':
+        metodo_pagamento = request.form['metodo_pagamento']
+        # Simular o pagamento (aqui apenas marcamos o método de pagamento)
+        pedido.metodo_pagamento = metodo_pagamento
+        db.session.commit()
+        return redirect(url_for('pedidos'))
+    
+    return render_template('simulacao.html', pedido=pedido)
+
 # Relatorio em FPDF
 from fpdf import FPDF
 
-
-# Rotas para relatórios
+# Rota para o relatório de clientes
 @app.route('/relatorio_clientes')
 def relatorio_clientes():
+    # Consulta todos os clientes do banco de dados
     clientes = Cliente.query.all()
 
+    # Cria um objeto PDF
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
@@ -105,15 +120,15 @@ def relatorio_clientes():
     pdf.cell(200, 10, txt="Relatório de Clientes", ln=True, align='C')
 
     # Adiciona cabeçalho com os nomes das colunas
-    pdf.cell(50, 10, txt="Nome", border=1, ln=True, align='C')
-    pdf.cell(50, 10, txt="Email", border=1, ln=True, align='C')
-    pdf.cell(50, 10, txt="Telefone", border=1, ln=True, align='C')
+    pdf.cell(50, 10, txt="Nome", border=1, ln=0, align='C')
+    pdf.cell(50, 10, txt="Email", border=1, ln=0, align='C')
+    pdf.cell(50, 10, txt="Telefone", border=1, ln=1, align='C')
 
-    # Adiciona os dados de cada cliente
+    # Adiciona os dados de cada cliente ao relatório
     for cliente in clientes:
-        pdf.cell(50, 10, txt=cliente.nome, border=1, ln=True, align='C')
-        pdf.cell(50, 10, txt=cliente.email, border=1, ln=True, align='C')
-        pdf.cell(50, 10, txt=cliente.telefone, border=1, ln=True, align='C')
+        pdf.cell(50, 10, txt=cliente.nome, border=1, ln=0, align='C')
+        pdf.cell(50, 10, txt=cliente.email, border=1, ln=0, align='C')
+        pdf.cell(50, 10, txt=cliente.telefone, border=1, ln=1, align='C')
         
     # Salva o relatório em PDF
     pdf_file = "relatorio_clientes.pdf"
@@ -127,10 +142,13 @@ def relatorio_clientes():
 
     return response
 
+# Rota para o relatório de vendas
 @app.route('/relatorio_vendas')
 def relatorio_vendas():
+    # Consulta todos os pedidos do banco de dados
     pedidos = Pedido.query.all()
 
+    # Cria um objeto PDF
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
@@ -139,15 +157,17 @@ def relatorio_vendas():
     pdf.cell(200, 10, txt="Relatório de Vendas", ln=True, align='C')
 
     # Adiciona cabeçalho com os nomes das colunas
-    pdf.cell(50, 10, txt="ID do Pedido", border=1, ln=True, align='C')
-    pdf.cell(50, 10, txt="ID do Cliente", border=1, ln=True, align='C')
-    pdf.cell(50, 10, txt="Método de Pagamento", border=1, ln=True, align='C')
+    pdf.cell(30, 10, txt="ID do Pedido", border=1, ln=0, align='C')  
+    pdf.cell(80, 10, txt="Cliente", border=1, ln=0, align='C')  
+    pdf.cell(80, 10, txt="Método de Pagamento", border=1, ln=1, align='C') 
 
-    # Adiciona os dados de cada pedido
+    # Adiciona os dados de cada pedido ao relatório
     for pedido in pedidos:
-        pdf.cell(50, 10, txt=str(pedido.id), border=1, ln=True, align='C')
-        pdf.cell(50, 10, txt=str(pedido.cliente_id), border=1, ln=True, align='C')
-        pdf.cell(50, 10, txt=pedido.metodo_pagamento, border=1, ln=True, align='C')
+        # Consulta o cliente associado ao pedido
+        cliente = Cliente.query.get(pedido.cliente_id)
+        pdf.cell(30, 10, txt=str(pedido.id), border=1, ln=0, align='C')
+        pdf.cell(80, 10, txt=cliente.nome, border=1, ln=0, align='C')
+        pdf.cell(80, 10, txt=pedido.metodo_pagamento, border=1, ln=1, align='C')
 
     # Salva o relatório em PDF
     pdf_file = "relatorio_vendas.pdf"

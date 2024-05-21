@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Simulação de Pagamento</h1>
+<p>Pedido ID: {{ pedido.id }}</p>
+<p>Cliente: {{ pedido.cliente.nome }}</p>
+<p>Itens:</p>
+<ul>
+    {% for item in pedido.itens %}
+    <li>{{ item.item.nome }} - Quantidade: {{ item.quantidade }}</li>
+    {% endfor %}
+</ul>
+<p>Total: R$ {{ pedido.itens | sum(attribute='item.preco') }}</p>
+
+<form method="POST">
+    <label for="metodo_pagamento">Método de Pagamento:</label>
+    <select name="metodo_pagamento" id="metodo_pagamento">
+        <option value="Cartão de Crédito">Cartão de Crédito</option>
+        <option value="Cartão de Débito">Cartão de Débito</option>
+        <option value="Dinheiro">Dinheiro</option>
+        <option value="Pix">Pix</option>
+    </select>
+    <button type="submit">Simular Pagamento</button>
+</form>
+{% endblock %}
