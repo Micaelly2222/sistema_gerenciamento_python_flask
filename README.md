@@ -39,10 +39,9 @@ cd sistema_gerenciamento_python_flask
 
 ## Passo 2: Instalar Dependências
 
-``sh
+```sh
 pip install -r requirements.txt
 ```
-
 ## Passo 3: Executar o Docker Compose
 
 ```sh
