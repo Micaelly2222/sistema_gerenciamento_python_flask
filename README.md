@@ -36,13 +36,18 @@ Clone o repositório do projeto para a sua máquina local:
 git clone https://github.com/usuario/sistema_gerenciamento_python_flask.git
 cd sistema_gerenciamento_python_flask
 ```
+
 ## Passo 2: Instalar Dependências
 
+``sh
 pip install -r requirements.txt
+```
 
 ## Passo 3: Executar o Docker Compose
 
+```sh
 docker-compose up
+```
 
 ## Passo 4: Acessar a Aplicação
 
