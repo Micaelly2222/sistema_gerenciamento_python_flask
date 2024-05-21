@@ -18,6 +18,7 @@ Este projeto é um sistema de gerenciamento para uma cafeteria, que auxilia na g
 - **Outras ferramentas:** Docker
 - **Bibliotecas adicionais:** 
   - Para geração de relatórios: fpdf
+  - Para a interface visual: HTML
 
 # Guia de Configuração e Execução do Sistema de Gerenciamento
 
