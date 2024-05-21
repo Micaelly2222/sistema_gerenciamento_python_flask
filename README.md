@@ -54,4 +54,10 @@ docker-compose up
 (http://localhost:5000)
 
 ## Dados de Exemplo
+
 No arquivo modelo_inicializacao_banco.sql, você encontrará exemplos de instruções SQL para inicializar o banco de dados com dados de exemplo.
+
+## Documentação Visual: pasta "docs"
+
+No diretório docs, você encontrará uma coleção de imagens que fornecem visualizações das telas da aplicação. Essas imagens mostram diferentes aspectos e funcionalidades da aplicação, incluindo o cardápio, a página inicial, os pedidos, o estoque, os clientes e os relatórios de vendas e clientes. 
+
